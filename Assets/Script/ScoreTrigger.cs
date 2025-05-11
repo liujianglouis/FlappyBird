@@ -8,25 +8,16 @@ public class ScoreTrigger : MonoBehaviour
     // Start is called before the first frame update
     private bool hasScored = false;
 
-    void Start()
+    public void Init(ScoreController controller)
     {
-        scoreController = FindAnyObjectByType<ScoreController>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        scoreController = controller;
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (hasScored)
-        {
-            return;
-        }
-        if (other.gameObject.CompareTag("Player"))
-        {
+        
+        if (!hasScored && other.gameObject.CompareTag("Player"))
+        {   
             hasScored = true;
             if (scoreController != null)
             {

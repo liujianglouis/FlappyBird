@@ -5,11 +5,14 @@ using UnityEngine;
 public class PipesSpawn : MonoBehaviour
 {
     public GameObject pipes;
-    public float spawnYRandom;
+    public float spawnYMin;
+    public float spawnYMax;
     public float timeToSpawn;
 
     private float SpawnY;
     private float spawnCounter;
+
+    public ScoreController scoreController;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,13 +24,19 @@ public class PipesSpawn : MonoBehaviour
     {
         spawnCounter -= Time.deltaTime;
 
-        if(spawnCounter <= 0)
+        if (spawnCounter <= 0)
         {
-            SpawnY = Random.Range(-spawnYRandom, spawnYRandom);
-            Instantiate(pipes, new Vector3(transform.position.x, SpawnY, 0), Quaternion.identity);
+            SpawnY = Random.Range(spawnYMin, spawnYMax);
+            GameObject pipe = Instantiate(pipes, new Vector3(transform.position.x, SpawnY, 0), Quaternion.identity);
+            ScoreTrigger trigger = pipe.GetComponentInChildren<ScoreTrigger>();
+
+            if(trigger != null)
+            {
+                trigger.Init(scoreController);
+            }
+
+            
             spawnCounter = timeToSpawn;
         }
-
-        
     }
 }

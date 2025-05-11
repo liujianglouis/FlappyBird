@@ -19,12 +19,6 @@ public class ScoreController : MonoBehaviour
         UpdateScoreDisplay(0);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     void UpdateScoreDisplay(int value)
     {
         string scoreString = value.ToString();
