@@ -22,6 +22,8 @@ public class PipesSpawn : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.Instance.isGameStarted)
+            return;
         spawnCounter -= Time.deltaTime;
 
         if (spawnCounter <= 0)
