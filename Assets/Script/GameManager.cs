@@ -6,6 +6,10 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
 
+    public GameObject mainMenuUI;
+    public GameObject gameOverUI;
+    public GameObject player;
+    private PlayerController playerController;
     public bool isGameStarted = false;
     // Start is called before the first frame update
     private void Awake()
@@ -13,20 +17,22 @@ public class GameManager : MonoBehaviour
         Instance = this;
     }
 
+    private void Start()
+    {
+        playerController = player.GetComponent<PlayerController>();
+
+    }
+
     public void StartGame()
     {
         isGameStarted = true;
+        mainMenuUI.SetActive(false);
+        playerController.EnablePhysics();
     }
-
-
-    void Start()
+    public void GameOver()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        isGameStarted = false;
+        gameOverUI.SetActive(true);
+        playerController.DisablePhysics();
     }
 }

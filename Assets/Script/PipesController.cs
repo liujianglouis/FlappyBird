@@ -11,6 +11,8 @@ public class PipesController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!GameManager.Instance.isGameStarted)
+            return;
         transform.position -= Vector3.right * pipesMoveSpeed * Time.deltaTime;
 
         if (transform.position.x <= destroyPositionX)
