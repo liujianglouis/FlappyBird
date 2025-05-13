@@ -6,14 +6,14 @@ public class PlayerController : MonoBehaviour
 {
     public float jumpForce;
     private Rigidbody2D rb;
-    private bool hasStarted;
+    private Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
         rb.simulated = false;
-        hasStarted = false;
     }
 
     // Update is called once per frame
@@ -46,5 +46,20 @@ public class PlayerController : MonoBehaviour
     public void DisablePhysics()
     {
         rb.simulated = false;
+    }
+
+    public void StopAnimation()
+    {
+        if (animator != null)
+        {
+            animator.enabled = false;
+        }
+    }
+    public void PlayAnimation()
+    {
+        if (animator != null)
+        {
+            animator.enabled = true;
+        }
     }
 }

@@ -11,7 +11,6 @@ public class ScoreController : MonoBehaviour
 
 
     private int score = 0;
-    private float timer = 0f;
     private List<GameObject> numberImageList = new List<GameObject>(); // 当前所有Image预制
     // Start is called before the first frame update
     void Start()
