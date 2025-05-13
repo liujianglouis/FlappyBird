@@ -2,20 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraEffects : MonoBehaviour
+public class CameraShake : MonoBehaviour
 {
-    public static CameraEffects Instance;
-
-    private Vector3 originalPos;
-
+    public static CameraShake Instance;
     public float shakeTime;
     public float shakeIntensity;
+    private Vector3 originalPos;
+    // Start is called before the first frame update
+
     private void Awake()
     {
         Instance = this;
         originalPos = transform.localPosition;
     }
-
     public void Shake()
     {
         StartCoroutine(ShakeRoutine(shakeTime, shakeIntensity));

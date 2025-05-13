@@ -46,7 +46,8 @@ public class GameManager : MonoBehaviour
         isGameStarted = false;
         gameOverUI.SetActive(true);
         playerController.StopAnimation();
-        CameraEffects.Instance.Shake();
+        CameraShake.Instance.Shake();
+        CameraFlashPanel.Instance.Flash();
     }
 
     public void ReturnToMainMenu()
