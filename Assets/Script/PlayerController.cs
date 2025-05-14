@@ -7,7 +7,9 @@ public class PlayerController : MonoBehaviour
     public float jumpForce;
     private Rigidbody2D rb;
     private Animator animator;
-
+    [SerializeField] private float rotationIntensity;
+    [SerializeField] private float maxRotation;
+    [SerializeField] private float minRotation;
     // Start is called before the first frame update
     void Start()
     {
@@ -27,13 +29,19 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
         {
             rb.velocity = Vector2.up * jumpForce;
+            SoundManager.Instance.PlayJump();
         }
+    }
+    private void FixedUpdate()
+    {
+        RotatePlayer();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (GameManager.Instance.isGameStarted && (collision.gameObject.CompareTag("Pipe") || collision.gameObject.CompareTag("Land")))
         {
+            SoundManager.Instance.PlayHit();
             GameManager.Instance.GameOver();
         }
     }
@@ -60,6 +68,26 @@ public class PlayerController : MonoBehaviour
         if (animator != null)
         {
             animator.enabled = true;
+        }
+    }
+
+    private void RotatePlayer()
+    {
+        if (!GameManager.Instance.isGameOver)
+        {
+            float rotateAngle;
+            if (rb.velocity.y > 0)
+            {
+                rotateAngle = rb.velocity.y * rotationIntensity;
+            }
+            else
+            {
+                rotateAngle = rb.velocity.y * rotationIntensity * 2;
+            }
+
+            rotateAngle = Mathf.Clamp(rotateAngle, minRotation, maxRotation);
+            Quaternion targetRotation = Quaternion.Euler(0, 0, rotateAngle);
+            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 20f);
         }
     }
 }

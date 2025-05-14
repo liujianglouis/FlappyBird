@@ -15,10 +15,10 @@ public class ScoreController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        UpdateScoreDisplay(0);
+        ResetScore();
     }
 
-    void UpdateScoreDisplay(int value)
+    public void UpdateScoreDisplay(int value)
     {
         string scoreString = value.ToString();
 
@@ -42,7 +42,13 @@ public class ScoreController : MonoBehaviour
 
     public void AddScore(int addScore)
     {
+        SoundManager.Instance.Playscore();
         score += addScore;
         UpdateScoreDisplay(score);
+    }
+
+    public void ResetScore()
+    {
+        UpdateScoreDisplay(0);
     }
 }

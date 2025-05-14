@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public GameObject scoreUI;
     public GameObject player;
     private PlayerController playerController;
+    public ScoreController scoreController;
+    public PipesSpawn pipesSpawn;
     public bool isGameStarted = false;
     public bool isGameOver;
     // Start is called before the first frame update
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
         mainMenuUI.SetActive(true);
         scoreUI.SetActive(false);
         ResetGame();
+        scoreController.ResetScore();
     }
 
     void ResetGame()
@@ -68,5 +71,6 @@ public class GameManager : MonoBehaviour
         player.transform.position = new Vector3(-0.846f, 0, 0);
         playerController.DisablePhysics();
         playerController.PlayAnimation();
+        pipesSpawn.StartSpawnCount();
     }
 }

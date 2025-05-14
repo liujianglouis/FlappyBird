@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38f1728af5f74c54694a3f4b3e76e208, type: 3}
+  m_Name: SoundData
+  m_EditorClassIdentifier: 
+  dieClip: {fileID: 8300000, guid: ed47f5387076c504585467470bb226b2, type: 3}
+  hitClip: {fileID: 8300000, guid: 14f319c09b876cc469c3188c4da9c792, type: 3}
+  scoreClip: {fileID: 8300000, guid: c38713e489dd5384fa4a91b016b703d3, type: 3}
+  jumpClip: {fileID: 8300000, guid: 5ffa2c8f17eec284b9896f0b46b695f8, type: 3}

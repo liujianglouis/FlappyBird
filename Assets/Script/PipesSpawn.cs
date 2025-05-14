@@ -16,7 +16,7 @@ public class PipesSpawn : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        spawnCounter = 1;
+        StartSpawnCount();
     }
 
     // Update is called once per frame
@@ -40,5 +40,10 @@ public class PipesSpawn : MonoBehaviour
             
             spawnCounter = timeToSpawn;
         }
+    }
+
+    public void StartSpawnCount()
+    {
+        spawnCounter = 0;
     }
 }
