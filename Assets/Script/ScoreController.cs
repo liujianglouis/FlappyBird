@@ -49,6 +49,12 @@ public class ScoreController : MonoBehaviour
 
     public void ResetScore()
     {
-        UpdateScoreDisplay(0);
+        foreach (Transform child in scoreDisplayRoot)
+        {
+            Destroy(child.gameObject);
+        }
+        numberImageList.Clear();
+        score = 0;
+        UpdateScoreDisplay(score);
     }
 }
