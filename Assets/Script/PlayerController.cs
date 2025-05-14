@@ -39,10 +39,22 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (GameManager.Instance.isGameStarted && (collision.gameObject.CompareTag("Pipe") || collision.gameObject.CompareTag("Land")))
+        if (GameManager.Instance.isGameStarted && !GameManager.Instance.isGameOver)
         {
-            SoundManager.Instance.PlayHit();
-            GameManager.Instance.GameOver();
+            if (collision.gameObject.CompareTag("PipeSide"))
+            {
+                // 撞到水管逻辑
+                GameManager.Instance.GameOver();
+                SoundManager.Instance.PlayHit(); // 播放撞击音效
+                StartCoroutine(FallAfterDelay()); // 开始延迟下坠
+            }
+            else if (collision.gameObject.CompareTag("Land") || collision.gameObject.CompareTag("PipeTop"))
+            {
+                // 撞地面逻辑
+                
+                GameManager.Instance.GameOver();
+                SoundManager.Instance.PlayHit(); // 播放撞击音效
+            }
         }
     }
 
@@ -73,8 +85,10 @@ public class PlayerController : MonoBehaviour
 
     private void RotatePlayer()
     {
-        if (!GameManager.Instance.isGameOver)
-        {
+
+        if (GameManager.Instance.isGameOver)
+            return;
+        
             float rotateAngle;
             if (rb.velocity.y > 0)
             {
@@ -88,6 +102,27 @@ public class PlayerController : MonoBehaviour
             rotateAngle = Mathf.Clamp(rotateAngle, minRotation, maxRotation);
             Quaternion targetRotation = Quaternion.Euler(0, 0, rotateAngle);
             transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 20f);
-        }
     }
+    private IEnumerator FallAfterDelay()
+    {
+        rb.velocity = Vector2.zero; // 停住角色
+        rb.simulated = false;       // 物理暂时停用，定在空中
+        yield return new WaitForSeconds(0.3f); // 停留一小会
+
+        rb.simulated = true;        // 再次启用物理
+        SoundManager.Instance.PlayDie(); // 播放下坠死亡音效
+    }
+
+    public void PlayerResetGame()
+    {
+        foreach (var pipe in GameObject.FindGameObjectsWithTag("Pipe"))
+        {
+            Destroy(pipe);
+        }
+        transform.position = new Vector3(-0.846f, 0, 0);
+        DisablePhysics();
+        PlayAnimation();
+        rb.velocity = Vector2.zero;
+    }
+
 }

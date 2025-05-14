@@ -58,19 +58,9 @@ public class GameManager : MonoBehaviour
         gameOverUI.SetActive(false);
         mainMenuUI.SetActive(true);
         scoreUI.SetActive(false);
-        ResetGame();
+        playerController.PlayerResetGame();
         scoreController.ResetScore();
-    }
-
-    void ResetGame()
-    {
-        foreach (var pipe in GameObject.FindGameObjectsWithTag("Pipe"))
-        {
-            Destroy(pipe);
-        }
-        player.transform.position = new Vector3(-0.846f, 0, 0);
-        playerController.DisablePhysics();
-        playerController.PlayAnimation();
         pipesSpawn.StartSpawnCount();
+        
     }
 }
