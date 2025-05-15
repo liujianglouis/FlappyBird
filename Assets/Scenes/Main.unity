@@ -222,6 +222,7 @@ MonoBehaviour:
   player: {fileID: 190834727}
   scoreController: {fileID: 2119256176}
   pipesSpawn: {fileID: 119925740}
+  cameraEffect: {fileID: 519420036}
   isGameStarted: 0
   isGameOver: 0
 --- !u!1 &190834727
@@ -857,6 +858,7 @@ GameObject:
   - component: {fileID: 519420029}
   - component: {fileID: 519420035}
   - component: {fileID: 519420034}
+  - component: {fileID: 519420036}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -958,6 +960,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shakeTime: 0.1
   shakeIntensity: 0.05
+--- !u!114 &519420036
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 519420028}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c5d3b63677f17e48a184c88d02f9ffb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraShake: {fileID: 519420035}
+  cameraFlashPanel: {fileID: 519420034}
 --- !u!1 &721773109
 GameObject:
   m_ObjectHideFlags: 0
@@ -1694,6 +1710,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a930bee5e0303048a5444fdf19e8c28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scoreDisplayRoot: {fileID: 2119256174}
   numberAssets:
   - {fileID: 21300000, guid: a22269db141a8334b914c99a5e277229, type: 3}
   - {fileID: 21300000, guid: b8b5fa965bf8deb46a7ea59ee41ee42b, type: 3}
@@ -1706,7 +1723,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 9e3be98824e04c0408bf96eb148fae11, type: 3}
   - {fileID: 21300000, guid: ab03c95f6c5cd894797eb16feaae691e, type: 3}
   singleNumberPrefab: {fileID: 7041805322892196565, guid: 9a2454d32bf68a04191b3c089d14c0e0, type: 3}
-  scoreDisplayRoot: {fileID: 2119256174}
 --- !u!114 &2119256177
 MonoBehaviour:
   m_ObjectHideFlags: 0

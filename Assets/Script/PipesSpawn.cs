@@ -8,19 +8,26 @@ public class PipesSpawn : MonoBehaviour
     public float spawnYMin;
     public float spawnYMax;
     public float timeToSpawn;
-
-    private float SpawnY;
     private float spawnCounter;
 
     public ScoreController scoreController;
     // Start is called before the first frame update
     void Start()
     {
-        StartSpawnCount();
+        PlayInit();
     }
 
     // Update is called once per frame
     void Update()
+    {
+        PipeSpawn();
+    }
+    public void PlayInit()
+    {
+        spawnCounter = 0;
+    }
+    
+    private void PipeSpawn()
     {
         if (!GameManager.Instance.isGameStarted)
             return;
@@ -28,22 +35,9 @@ public class PipesSpawn : MonoBehaviour
 
         if (spawnCounter <= 0)
         {
-            SpawnY = Random.Range(spawnYMin, spawnYMax);
-            GameObject pipe = Instantiate(pipes, new Vector3(transform.position.x, SpawnY, 0), Quaternion.identity);
-            ScoreTrigger trigger = pipe.GetComponentInChildren<ScoreTrigger>();
-
-            if(trigger != null)
-            {
-                trigger.Init(scoreController);
-            }
-
-            
             spawnCounter = timeToSpawn;
+            float SpawnY = Random.Range(spawnYMin, spawnYMax);
+            GameObject pipe = Instantiate(pipes, new Vector3(transform.position.x, SpawnY, 0), Quaternion.identity);
         }
-    }
-
-    public void StartSpawnCount()
-    {
-        spawnCounter = 0;
     }
 }

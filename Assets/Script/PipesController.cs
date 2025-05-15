@@ -11,15 +11,22 @@ public class PipesController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        PipeMove();
+        PipeDestroy();
+    }
+
+    private void PipeMove()
+    {
         if (!GameManager.Instance.isGameStarted)
             return;
         transform.position -= Vector3.right * pipesMoveSpeed * Time.deltaTime;
+    }
 
+    private void PipeDestroy()
+    {
         if (transform.position.x <= destroyPositionX)
         {
             Destroy(gameObject);
         }
     }
-
-
 }

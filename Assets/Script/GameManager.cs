@@ -10,9 +10,11 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUI;
     public GameObject scoreUI;
     public GameObject player;
+
     private PlayerController playerController;
     public ScoreController scoreController;
     public PipesSpawn pipesSpawn;
+    public CameraEffect cameraEffect;
     public bool isGameStarted = false;
     public bool isGameOver;
     // Start is called before the first frame update
@@ -48,8 +50,7 @@ public class GameManager : MonoBehaviour
         isGameStarted = false;
         gameOverUI.SetActive(true);
         playerController.StopAnimation();
-        CameraShake.Instance.Shake();
-        CameraFlashPanel.Instance.Flash();
+        cameraEffect.PlayCameraEffect();
     }
 
     public void ReturnToMainMenu()
@@ -60,7 +61,6 @@ public class GameManager : MonoBehaviour
         scoreUI.SetActive(false);
         playerController.PlayerResetGame();
         scoreController.ResetScore();
-        pipesSpawn.StartSpawnCount();
-        
+        pipesSpawn.PlayInit();
     }
 }

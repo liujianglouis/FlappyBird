@@ -15,7 +15,7 @@ public class CameraShake : MonoBehaviour
         Instance = this;
         originalPos = transform.localPosition;
     }
-    public void Shake()
+    public void PlayShake()
     {
         StartCoroutine(ShakeRoutine(shakeTime, shakeIntensity));
     }
@@ -34,7 +34,6 @@ public class CameraShake : MonoBehaviour
             shakeTimeCounter += Time.deltaTime;
             yield return null;
         }
-
         transform.localPosition = originalPos;
     }
 }

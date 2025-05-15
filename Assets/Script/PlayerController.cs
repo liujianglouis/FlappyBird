@@ -11,26 +11,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxRotation;
     [SerializeField] private float minRotation;
     // Start is called before the first frame update
+
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
-        animator = GetComponent<Animator>();
-        rb.simulated = false;
+        PlayInit(); 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.Instance.isGameStarted)
-        {
-            return;
-        }
-
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
-        {
-            rb.velocity = Vector2.up * jumpForce;
-            SoundManager.Instance.PlayJump();
-        }
+        MonitorInput();
     }
     private void FixedUpdate()
     {
@@ -39,23 +29,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (GameManager.Instance.isGameStarted && !GameManager.Instance.isGameOver)
-        {
-            if (collision.gameObject.CompareTag("PipeSide"))
-            {
-                // 撞到水管逻辑
-                GameManager.Instance.GameOver();
-                SoundManager.Instance.PlayHit(); // 播放撞击音效
-                StartCoroutine(FallAfterDelay()); // 开始延迟下坠
-            }
-            else if (collision.gameObject.CompareTag("Land") || collision.gameObject.CompareTag("PipeTop"))
-            {
-                // 撞地面逻辑
-                
-                GameManager.Instance.GameOver();
-                SoundManager.Instance.PlayHit(); // 播放撞击音效
-            }
-        }
+        GameOverDetection(collision);
     }
 
     public void EnablePhysics()
@@ -124,5 +98,48 @@ public class PlayerController : MonoBehaviour
         PlayAnimation();
         rb.velocity = Vector2.zero;
     }
+    private void PlayInit()
+    {
+        rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
+        rb.simulated = false;
+    }
+    private void MonitorInput()
+    {
+        if (!GameManager.Instance.isGameStarted)
+        {
+            return;
+        }
 
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+        {
+            Jump();
+
+        }
+    }
+    private void Jump()
+    {
+        rb.velocity = Vector2.up * jumpForce;
+        SoundManager.Instance.PlayJump();
+    }
+    private void GameOverDetection(Collision2D collision)
+    {
+        if (GameManager.Instance.isGameStarted && !GameManager.Instance.isGameOver)
+        {
+            if (collision.gameObject.CompareTag("PipeSide"))
+            {
+                // 撞到水管逻辑
+                GameManager.Instance.GameOver();
+                SoundManager.Instance.PlayHit(); // 播放撞击音效
+                StartCoroutine(FallAfterDelay()); // 开始延迟下坠
+            }
+            else if (collision.gameObject.CompareTag("Land") || collision.gameObject.CompareTag("PipeTop"))
+            {
+                // 撞地面逻辑
+
+                GameManager.Instance.GameOver();
+                SoundManager.Instance.PlayHit(); // 播放撞击音效
+            }
+        }
+    }
 }

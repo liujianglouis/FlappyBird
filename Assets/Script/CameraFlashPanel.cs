@@ -9,7 +9,7 @@ public class CameraFlashPanel : MonoBehaviour
     public Image flashPanel;
     public float flashTime;
     // Start is called before the first frame update
-    public void Flash()
+    public void PlayFlash()
     {
         StartCoroutine(FlashRoutine());
     }
