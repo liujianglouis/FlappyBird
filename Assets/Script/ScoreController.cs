@@ -20,11 +20,16 @@ public class ScoreController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        StartInit();
+        InitGame();
     }
 
-    private void StartInit()
+    public void InitGame()
     {
+        foreach (Transform child in scoreDisplayRoot)
+        {
+            Destroy(child.gameObject);
+        }
+        numberImageList.Clear();
         score = 0;
         UpdateScore(score);
     }
@@ -57,17 +62,5 @@ public class ScoreController : MonoBehaviour
             numberImageList[i].SetActive(true);
         }
     }
-
-    public void ResetScore()
-    {
-        foreach (Transform child in scoreDisplayRoot)
-        {
-            Destroy(child.gameObject);
-        }
-        numberImageList.Clear();
-        score = 0;
-        UpdateScore(score);
-    }
-
     
 }

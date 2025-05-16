@@ -11,20 +11,11 @@ public class PipesSpawn : MonoBehaviour
     private float spawnCounter;
 
     public ScoreController scoreController;
-    // Start is called before the first frame update
-    void Start()
-    {
-        PlayInit();
-    }
 
     // Update is called once per frame
     void Update()
     {
         PipeSpawn();
-    }
-    public void PlayInit()
-    {
-        spawnCounter = 0;
     }
     
     private void PipeSpawn()
@@ -39,5 +30,15 @@ public class PipesSpawn : MonoBehaviour
             float SpawnY = Random.Range(spawnYMin, spawnYMax);
             GameObject pipe = Instantiate(pipes, new Vector3(transform.position.x, SpawnY, 0), Quaternion.identity);
         }
+    }
+
+    public void InitGame()
+    {
+        foreach (var pipe in GameObject.FindGameObjectsWithTag("Pipe"))
+        {
+            Destroy(pipe);
+        }
+
+        spawnCounter = 0;
     }
 }

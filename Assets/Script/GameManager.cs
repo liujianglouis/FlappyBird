@@ -4,19 +4,26 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("游戏管理器实例")]
     public static GameManager Instance;
 
+    [Header("UI")]
     public GameObject mainMenuUI;
     public GameObject gameOverUI;
     public GameObject scoreUI;
-    public GameObject player;
 
-    private PlayerController playerController;
+    [Header("脚本引用")]
+    public UIManager uiManager;
+    public PlayerController playerController;
     public ScoreController scoreController;
     public PipesSpawn pipesSpawn;
-    public CameraEffect cameraEffect;
+    public CameraEffectManager cameraEffect;
+
+
+    [Header("游戏状态")]
     public bool isGameStarted = false;
-    public bool isGameOver;
+    public bool isGameOver = false;
+    public bool isMainMenu = true;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -25,8 +32,9 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        playerController = player.GetComponent<PlayerController>();
-
+        playerController.InitGame();
+        pipesSpawn.InitGame();
+        uiManager.InitGame();
     }
 
     void Update()
@@ -40,27 +48,24 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         isGameStarted = true;
-        mainMenuUI.SetActive(false);
-        scoreUI.SetActive(true);
-        playerController.EnablePhysics();
+        uiManager.ShowGamingUI();
+        playerController.StartGame();
     }
     public void GameOver()
     {
-        isGameOver = true;
         isGameStarted = false;
-        gameOverUI.SetActive(true);
-        playerController.StopAnimation();
+        isGameOver = true;
+        uiManager.ShowGameOverUI();
+        playerController.GameOver();
         cameraEffect.PlayCameraEffect();
     }
 
     public void ReturnToMainMenu()
     {
         isGameOver = false;
-        gameOverUI.SetActive(false);
-        mainMenuUI.SetActive(true);
-        scoreUI.SetActive(false);
-        playerController.PlayerResetGame();
-        scoreController.ResetScore();
-        pipesSpawn.PlayInit();
+        uiManager.ShowMainMenuUI();
+        playerController.InitGame();
+        pipesSpawn.InitGame();
+        uiManager.InitGame();
     }
 }

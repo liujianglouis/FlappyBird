@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraEffect : MonoBehaviour
+public class CameraEffectManager : MonoBehaviour
 {
     public CameraShake cameraShake;
     public CameraFlashPanel cameraFlashPanel;

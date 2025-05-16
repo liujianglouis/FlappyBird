@@ -11,10 +11,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float maxRotation;
     [SerializeField] private float minRotation;
     // Start is called before the first frame update
-
-    void Start()
+    private void Awake()
     {
-        PlayInit(); 
+        GetComponent();
     }
 
     // Update is called once per frame
@@ -22,88 +21,19 @@ public class PlayerController : MonoBehaviour
     {
         MonitorInput();
     }
+
     private void FixedUpdate()
     {
         RotatePlayer();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        GameOverDetection(collision);
-    }
-
-    public void EnablePhysics()
-    {
-        rb.simulated = true;
-    }
-
-    public void DisablePhysics()
-    {
-        rb.simulated = false;
-    }
-
-    public void StopAnimation()
-    {
-        if (animator != null)
-        {
-            animator.enabled = false;
-        }
-    }
-    public void PlayAnimation()
-    {
-        if (animator != null)
-        {
-            animator.enabled = true;
-        }
-    }
-
-    private void RotatePlayer()
-    {
-
-        if (GameManager.Instance.isGameOver)
-            return;
-        
-            float rotateAngle;
-            if (rb.velocity.y > 0)
-            {
-                rotateAngle = rb.velocity.y * rotationIntensity;
-            }
-            else
-            {
-                rotateAngle = rb.velocity.y * rotationIntensity * 2;
-            }
-
-            rotateAngle = Mathf.Clamp(rotateAngle, minRotation, maxRotation);
-            Quaternion targetRotation = Quaternion.Euler(0, 0, rotateAngle);
-            transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 20f);
-    }
-    private IEnumerator FallAfterDelay()
-    {
-        rb.velocity = Vector2.zero; // 停住角色
-        rb.simulated = false;       // 物理暂时停用，定在空中
-        yield return new WaitForSeconds(0.3f); // 停留一小会
-
-        rb.simulated = true;        // 再次启用物理
-        SoundManager.Instance.PlayDie(); // 播放下坠死亡音效
-    }
-
-    public void PlayerResetGame()
-    {
-        foreach (var pipe in GameObject.FindGameObjectsWithTag("Pipe"))
-        {
-            Destroy(pipe);
-        }
-        transform.position = new Vector3(-0.846f, 0, 0);
-        DisablePhysics();
-        PlayAnimation();
-        rb.velocity = Vector2.zero;
-    }
-    private void PlayInit()
+    private void GetComponent()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
-        rb.simulated = false;
     }
+
+
     private void MonitorInput()
     {
         if (!GameManager.Instance.isGameStarted)
@@ -117,6 +47,56 @@ public class PlayerController : MonoBehaviour
 
         }
     }
+
+    private void RotatePlayer()
+    {
+
+        if (GameManager.Instance.isGameOver)
+            return;
+
+        float rotateAngle;
+        if (rb.velocity.y > 0)
+        {
+            rotateAngle = rb.velocity.y * rotationIntensity;
+        }
+        else
+        {
+            rotateAngle = rb.velocity.y * rotationIntensity * 2;
+        }
+
+        rotateAngle = Mathf.Clamp(rotateAngle, minRotation, maxRotation);
+        Quaternion targetRotation = Quaternion.Euler(0, 0, rotateAngle);
+        transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, Time.deltaTime * 20f);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        GameOverDetection(collision);
+    }
+
+    public void StartGame()
+    {
+        rb.simulated = true;
+    }
+
+    public void GameOver()
+    {
+        animator.enabled = false;
+    }
+
+    
+    
+
+    public void InitGame()
+    {
+        transform.position = new Vector3(-0.846f, 0, 0);
+        rb.simulated = false;
+        animator.enabled = true;
+        rb.velocity = Vector2.zero;
+    }
+
+
+    
     private void Jump()
     {
         rb.velocity = Vector2.up * jumpForce;
@@ -128,18 +108,25 @@ public class PlayerController : MonoBehaviour
         {
             if (collision.gameObject.CompareTag("PipeSide"))
             {
-                // 撞到水管逻辑
                 GameManager.Instance.GameOver();
-                SoundManager.Instance.PlayHit(); // 播放撞击音效
-                StartCoroutine(FallAfterDelay()); // 开始延迟下坠
+                SoundManager.Instance.PlayHit(); 
+                StartCoroutine(FallAfterDelay()); 
             }
             else if (collision.gameObject.CompareTag("Land") || collision.gameObject.CompareTag("PipeTop"))
             {
-                // 撞地面逻辑
-
                 GameManager.Instance.GameOver();
-                SoundManager.Instance.PlayHit(); // 播放撞击音效
+                SoundManager.Instance.PlayHit(); 
             }
         }
+    }
+
+    private IEnumerator FallAfterDelay()
+    {
+        rb.velocity = Vector2.zero; 
+        rb.simulated = false;       
+        yield return new WaitForSeconds(0.3f); 
+
+        rb.simulated = true;        
+        SoundManager.Instance.PlayDie(); 
     }
 }
