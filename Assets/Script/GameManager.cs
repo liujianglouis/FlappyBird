@@ -8,15 +8,23 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance;
 
     [Header("UI")]
+    [Header("主菜单UI")]
     public GameObject mainMenuUI;
+    [Header("游戏结束UI")]
     public GameObject gameOverUI;
+    [Header("计分器UI")]
     public GameObject scoreUI;
 
     [Header("脚本引用")]
+    [Tooltip("UI管理器")]
     public UIManager uiManager;
+    [Tooltip("角色控制器")]
     public PlayerController playerController;
+    [Tooltip("分数控制器")]
     public ScoreController scoreController;
+    [Tooltip("管道生成器")]
     public PipesSpawn pipesSpawn;
+    [Tooltip("摄像机效果管理器")]
     public CameraEffectManager cameraEffect;
 
 
