@@ -35,11 +35,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
+        
+
         Instance = this;
     }
 
     private void Start()
     {
+        Application.targetFrameRate = (int)Screen.currentResolution.refreshRateRatio.value;
+        QualitySettings.vSyncCount = 0;
         playerController.InitGame();
         pipesSpawn.InitGame();
         uiManager.InitGame();

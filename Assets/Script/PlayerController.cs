@@ -5,6 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     public float jumpForce;
+    private Vector3 originalPos;
     private Rigidbody2D rb;
     private Animator animator;
     [SerializeField] private float rotationIntensity;
@@ -13,9 +14,14 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        GetComponent();
+        AwakeInit();
+        
     }
 
+    private void Start()
+    {
+        
+    }
     // Update is called once per frame
     void Update()
     {
@@ -27,10 +33,11 @@ public class PlayerController : MonoBehaviour
         RotatePlayer();
     }
 
-    private void GetComponent()
+    private void AwakeInit()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        originalPos = transform.position;
     }
 
 
@@ -89,7 +96,7 @@ public class PlayerController : MonoBehaviour
 
     public void InitGame()
     {
-        transform.position = new Vector3(-0.846f, 0, 0);
+        transform.position = originalPos;
         rb.simulated = false;
         animator.enabled = true;
         rb.velocity = Vector2.zero;
