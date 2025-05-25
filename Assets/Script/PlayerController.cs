@@ -15,7 +15,6 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         AwakeInit();
-        
     }
 
     private void Start()
@@ -109,6 +108,7 @@ public class PlayerController : MonoBehaviour
         rb.velocity = Vector2.up * jumpForce;
         SoundManager.Instance.PlayJump();
     }
+
     private void GameOverDetection(Collision2D collision)
     {
         if (GameManager.Instance.isGameStarted && !GameManager.Instance.isGameOver)
